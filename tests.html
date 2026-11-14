@@ -14,7 +14,7 @@
     test("Total de observaciones = 240", s.total === 240);
     test("Proporción de retrabajo = 0.05", close(s.p,.05,1e-10));
     test("Tamaño total requerido = 73", s.requiredTotal === 73);
-    test("Intervalo aproximado cercano a 2.23 %–7.77 %", close(s.lower,.0223,.0001) && close(s.upper,.0777,.0001));
+    test("Intervalo aproximado cercano a 2.24 %–7.76 %", close(s.lower,.022426,.0001) && close(s.upper,.077574,.0001));
     const e = calculateErgonomics({deskHeight:720,instructionDistance:450,elbowOffset:20});
     test("Alturas objetivo = 630, 690 y 760 mm", e.map(x=>x.targetHeight).join(",") === "630,690,760");
     test("Instrucciones a 450 mm quedan fuera del alcance de los tres perfiles", e.every(x=>!x.reachWithin));
