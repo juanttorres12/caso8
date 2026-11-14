@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Herramienta educativa para muestreo del trabajo, ergonomía geométrica y momento de carga.">
+  <title>Parte 2 · Muestreo y ergonomía</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Ingeniería Industrial · Semana 11</p>
+      <h1>Muestreo del trabajo y ergonomía</h1>
+      <p>Calculadora didáctica para contrastar observaciones, criterios geométricos y un ejemplo hipotético de momento.</p>
+      <span class="badge">Datos de práctica · No es una evaluación médica ni ambiental</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="section-title"><span>01</span><div><h2>Muestreo del trabajo</h2><p>Estimación de la proporción de instantes observados en retrabajo.</p></div></div>
+      <div class="grid inputs">
+        <label>Preparar y armar <input id="prepare" type="number" min="0" value="144"></label>
+        <label>Inspeccionar <input id="inspect" type="number" min="0" value="60"></label>
+        <label>Retrabajar <input id="rework" type="number" min="0" value="12"></label>
+        <label>Buscar materiales <input id="search" type="number" min="0" value="24"></label>
+        <label>Margen absoluto (e) <input id="margin" type="number" min="0.001" max="0.5" step="0.001" value="0.05"></label>
+        <label>Confianza (Z) <input id="zvalue" type="number" min="0.1" step="0.01" value="1.96"></label>
+      </div>
+      <button id="samplingButton" type="button">Calcular muestreo</button>
+      <div class="results" aria-live="polite">
+        <article class="metric"><small>Total de observaciones (n)</small><strong id="totalObs">240</strong></article>
+        <article class="metric"><small>Proporción de retrabajo (p)</small><strong id="proportion">5.00 %</strong></article>
+        <article class="metric"><small>Intervalo aproximado del 95 %</small><strong id="interval">2.23 % – 7.77 %</strong></article>
+        <article class="metric"><small>Tamaño total estimado</small><strong id="sampleSize">74</strong></article>
+      </div>
+      <p class="formula">IC aproximado: p ± Z√[p(1 − p)/n] · Tamaño: techo[Z²p(1 − p)/e²]</p>
+      <p id="samplingMessage" class="note">Con los datos iniciales, el tamaño total estimado es 74 observaciones. Ya hay 240 observaciones en la muestra descrita.</p>
+      <div class="callout"><strong>Interpretación correcta:</strong> 5 % representa 12 instantes de retrabajo entre 240 instantes observados. El 8 % de kits erróneos representa unidades defectuosas entre kits inspeccionados. No son la misma unidad de análisis y no deben compararse como si fueran mediciones equivalentes.</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title"><span>02</span><div><h2>Ergonomía geométrica</h2><p>Perfiles ficticios basados en percentiles P5, P50 y P95.</p></div></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Medida (mm)</th><th>P5</th><th>P50</th><th>P95</th></tr></thead>
+          <tbody>
+            <tr><th>Altura de codo sentado desde suelo</th><td>650</td><td>710</td><td>780</td></tr>
+            <tr><th>Alcance cómodo frontal</th><td>300</td><td>360</td><td>420</td></tr>
+            <tr><th>Superficie sugerida (codo − 20 mm)</th><td id="surfaceP5">630</td><td id="surfaceP50">690</td><td id="surfaceP95">760</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid inputs">
+        <label>Altura actual de mesa (mm) <input id="deskHeight" type="number" value="720"></label>
+        <label>Distancia actual de instrucciones (mm) <input id="instructionDistance" type="number" value="450"></label>
+        <label>Separación bajo el codo (mm) <input id="elbowOffset" type="number" value="20"></label>
+      </div>
+      <button id="ergoButton" type="button">Evaluar criterio geométrico</button>
+      <div id="ergoResults" class="profile-grid" aria-live="polite"></div>
+      <p class="note">Criterio de esta actividad: superficie de trabajo 20 mm debajo del codo sentado y alcance frecuente dentro del alcance cómodo frontal. La mesa fija de 720 mm no coincide con las alturas sugeridas (630–760 mm); las instrucciones a 450 mm exceden los alcances cómodos reportados para los tres perfiles (300, 360 y 420 mm).</p>
+      <div class="callout">Propuesta provisional: usar una superficie regulable que cubra aproximadamente 630–760 mm y reubicar las instrucciones para que la tarea frecuente quede dentro de 300 mm, incluyendo el perfil P5. Verificar en una prueba real con el equipo y las personas participantes.</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title"><span>03</span><div><h2>Momento por sostener una caja hipotética</h2><p>Modelo simplificado: fuerza vertical y brazo perpendicular horizontal.</p></div></div>
+      <div class="grid inputs">
+        <label>Masa hipotética (kg) <input id="mass" type="number" min="0" step="0.1" value="1.2"></label>
+        <label>Gravedad (m/s²) <input id="gravity" type="number" min="0" step="0.01" value="9.81"></label>
+        <label>Distancia A (m) <input id="distanceA" type="number" min="0" step="0.01" value="0.45"></label>
+        <label>Distancia B (m) <input id="distanceB" type="number" min="0" step="0.01" value="0.25"></label>
+      </div>
+      <button id="momentButton" type="button">Calcular momento</button>
+      <div class="results">
+        <article class="metric"><small>Fuerza por peso</small><strong id="force">11.77 N</strong></article>
+        <article class="metric"><small>Momento a distancia A</small><strong id="momentA">5.30 N·m</strong></article>
+        <article class="metric"><small>Momento a distancia B</small><strong id="momentB">2.94 N·m</strong></article>
+        <article class="metric"><small>Reducción al acercar la caja</small><strong id="reduction">44.44 %</strong></article>
+      </div>
+      <p class="formula">F = m·g · M = F·d (cuando la fuerza es perpendicular al brazo)</p>
+      <p class="note">Es un modelo estático simplificado, no una medición biomecánica ni un diagnóstico. En la práctica utilicen solamente fichas y cajas vacías: no kits químicos, vidrio ni cargas reales.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-title"><span>04</span><div><h2>Semana 12 · Preguntas opcionales</h2><p>Guía para explorar iluminación y legibilidad sin certificar niveles ambientales.</p></div></div>
+      <ol class="questions">
+        <li>¿Se distinguen con claridad las instrucciones desde la posición normal de trabajo?</li>
+        <li>¿Hay reflejos o sombras que dificulten leer etiquetas o formatos?</li>
+        <li>¿El tamaño de letra permite leer sin acercar repetidamente el material?</li>
+        <li>¿La iluminación se percibe uniforme entre el área de trabajo y la zona de materiales?</li>
+        <li>¿En qué momento de la jornada se dificulta más la lectura y por qué?</li>
+      </ol>
+    </section>
+
+    <section class="panel">
+      <h2>Cómo usarla y límites</h2>
+      <ul>
+        <li>Los conteos iniciales son instantes observados; cada observación registra el estado de una persona en un momento.</li>
+        <li>Para contrastar el 8 % de kits erróneos se requieren, como mínimo, número de kits inspeccionados, número de kits erróneos, periodo, línea, producto y criterio de defecto.</li>
+        <li>También conviene registrar fecha/hora aleatoria, jornada, duración, persona/puesto codificado, definición operacional de cada estado y método de selección.</li>
+        <li>Los percentiles son perfiles ficticios de esta actividad; no describen a una población real.</li>
+        <li>El cálculo de tamaño muestral usa la proporción preliminar p observada y una aproximación normal. Para una planeación conservadora cuando p sea desconocida, se puede usar p = 0.5.</li>
+      </ul>
+      <p class="note">La herramienta es educativa. Los resultados deben revisarse manualmente y explicarse por el equipo.</p>
+    </section>
+    <footer>Proyecto académico · Datos sintéticos · No introducir datos personales.</footer>
+  </main>
+</body>
+</html>
