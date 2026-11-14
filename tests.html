@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pruebas · Parte 2</title></head>
+<body>
+  <h1>Pruebas de los cálculos</h1>
+  <p>Pruebas simples de regresión para los datos iniciales de la actividad.</p>
+  <pre id="results">Ejecutando…</pre>
+  <script type="module">
+    import { calculateSampling, calculateErgonomics, calculateMoment } from "./app.js";
+    const lines = [];
+    function test(name, condition) { lines.push(`${condition ? "✓" : "✗"} ${name}`); if (!condition) throw new Error(name); }
+    const close = (a,b,t=0.01) => Math.abs(a-b) <= t;
+    const s = calculateSampling({counts:{prepare:144,inspect:60,rework:12,search:24},margin:.05,z:1.96});
+    test("Total de observaciones = 240", s.total === 240);
+    test("Proporción de retrabajo = 0.05", close(s.p,.05,1e-10));
+    test("Tamaño total requerido = 74", s.requiredTotal === 74);
+    test("Intervalo aproximado cercano a 2.23 %–7.77 %", close(s.lower,.0223,.0001) && close(s.upper,.0777,.0001));
+    const e = calculateErgonomics({deskHeight:720,instructionDistance:450,elbowOffset:20});
+    test("Alturas objetivo = 630, 690 y 760 mm", e.map(x=>x.targetHeight).join(",") === "630,690,760");
+    test("Instrucciones a 450 mm quedan fuera del alcance de los tres perfiles", e.every(x=>!x.reachWithin));
+    test("Mesa de 720 mm no coincide exactamente con los tres objetivos", e.every(x=>!x.deskWithin));
+    const m = calculateMoment({mass:1.2,gravity:9.81,distanceA:.45,distanceB:.25});
+    test("Fuerza = 11.772 N", close(m.force,11.772));
+    test("Momentos = 5.2974 y 2.943 N·m", close(m.momentA,5.2974) && close(m.momentB,2.943));
+    test("Reducción de momento = 44.44 %", close(m.reduction,44.4444,.001));
+    document.getElementById("results").textContent = lines.join("\n") + "\n\nTodas las pruebas pasaron.";
+  </script>
+</body></html>
