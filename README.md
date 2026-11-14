@@ -13,7 +13,7 @@ Herramienta web educativa para la actividad de Semana 11. No requiere instalar d
 
 - Estados observados: preparar y armar = 144; inspeccionar = 60; retrabajar = 12; buscar materiales = 24.
 - Total = 240 instantes; proporción de retrabajo = 12/240 = 0.05 = **5 %**.
-- Intervalo normal aproximado del 95 %: **2.23 % a 7.77 %**.
+- Intervalo normal aproximado del 95 %: **2.24 % a 7.76 %**.
 - Tamaño total estimado para margen absoluto 0.05 y Z = 1.96: **73 observaciones**. La muestra descrita de 240 ya supera ese tamaño estimado.
 - Alturas de superficie sugeridas: P5 = 650 − 20 = **630 mm**; P50 = 710 − 20 = **690 mm**; P95 = 780 − 20 = **760 mm**.
 - Alcances cómodos: 300, 360 y 420 mm. Las instrucciones a 450 mm exceden los tres valores.
